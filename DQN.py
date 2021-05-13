@@ -125,7 +125,7 @@ class Agent():
         # Initializing our network
         self.Q = DQN(self.learning_rate)
         self.target_net = DQN(self.learning_rate)
-        self.target_net.load_state_dict(torch.load("11-best.dat"))
+        self.target_net.load_state_dict(torch.load("target_net.dat"))
         self.max_score = 100
         self.max_median = 12
         # action  0 is left and 1 is right  
@@ -270,14 +270,14 @@ class Agent():
                     #avg.append(t)
                     episode_rewards.append(t)
                     self.store(observation, action,-100 ,next_observation, done)
-                    print(f"DQN Training Episode finished ({self.train_cnt} of {TRAIN_EPISODES}).. Total Reward is : {t}.")
+                    print(f"DQN Training Episode finished ({self.train_cnt} of {TRAIN_EPISODES}).. Total Reward is : {t+1}.")
                     observation = env.reset()
                     
                     self.train_cnt+=1
                     
                     if t>100:
                         self.Save(self.Q,self.train_cnt)
-                    elif t>450:
+                    elif t>=499:
                         self.Save(self.Q)    
                     
                     break
@@ -338,7 +338,7 @@ for i_episode in range(20):
     
     observation = env.reset()
     
-    for t in range(100):
+    for t in range(500):
         env.render()
         #print(observation)
         # Action is to be chosen by the agent
